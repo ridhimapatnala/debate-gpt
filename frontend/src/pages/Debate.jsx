@@ -9,7 +9,6 @@ const Debate = () => {
   const [messages, setMessages] = useState([]);
   const [debateId, setDebateId] = useState(null);
   const [stance, setStance] = useState("for");
-  const [feedback, setFeedback]=useState(true)
   const [loading, setLoading] = useState(false);
 
   const debateTopics = [
@@ -51,12 +50,12 @@ const Debate = () => {
     setInput('');
 
     try {
-      const token=localStorage.getItem("token")
+      const token = localStorage.getItem("token");
       const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-    };
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      };
       let response;
       if (!debateId) {
         response = await axios.post('http://localhost:5000/api/debates', {
@@ -69,11 +68,20 @@ const Debate = () => {
       } else {
         response = await axios.put(`http://localhost:5000/api/debates/${debateId}`, {
           messages: updatedMessages,
+          userStance: stance,
+          topic,
+          feedback: '',
         }, config);
       }
 
-      const aiReply = response.data.aiReply || 'No AI response yet';
-      setMessages((prev) => [...prev, { sender: 'ai', content: aiReply }]);
+      const updatedDebate =
+        response.data.updatedDebate || response.data.data;
+
+      if (updatedDebate?.messages) {
+        setMessages(updatedDebate.messages);
+      }
+      console.log('Response', response.data);
+
     } catch (e) {
       console.error('Error sending message', e);
     } finally {
@@ -82,7 +90,7 @@ const Debate = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-10">
+    <div className="max-w-2xl mx-auto mt-0">
       {!submitted ? (
         <>
           <h2 className="text-2xl font-bold mb-4">Enter a Debate Topic</h2>
@@ -96,48 +104,31 @@ const Debate = () => {
             />
             <button
               onClick={handleRandomTopic}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              className="px-4 py-2 bg-blue text-white rounded hover:bg-blue-700"
             >
               Random
             </button>
           </div>
 
-          <div className="flex justify-between items-center mb-4">
-            <div className="mb-4">
-              <label className="font-semibold mr-2">Your stance:</label>
-              <button
-                className={`px-3 py-1 rounded mr-2 ${stance === "for" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
-                onClick={() => setStance("for")}
-              >
-                For
-              </button>
-              <button
-                className={`px-3 py-1 rounded ${stance === "against" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
-                onClick={() => setStance("against")}
-              >
-                Against
-              </button>
-            </div>
-            {/* <div className="mb-4">
-              <label className="font-semibold mr-2">Enable Feedback:</label>
-              <button
-                className={`px-3 py-1 rounded mr-2 ${feedback===true ? "bg-blue-600 text-white" : "bg-gray-200"}`}
-                onClick={() => setFeedback(true)}
-              >
-                Yes
-              </button>
-              <button
-                className={`px-3 py-1 rounded ${feedback===false ? "bg-blue-600 text-white" : "bg-gray-200"}`}
-                onClick={() => setFeedback(false)}
-              >
-                No
-              </button>
-            </div> */}
+          <div className="mb-4">
+            <label className="font-semibold mr-2">Your stance:</label>
+            <button
+              className={`px-3 py-1 rounded mr-2 ${stance === "for" ? "bg-navy text-white" : "bg-gray-200"}`}
+              onClick={() => setStance("for")}
+            >
+              For
+            </button>
+            <button
+              className={`px-3 py-1 rounded ${stance === "against" ? "bg-navy text-white" : "bg-gray-200"}`}
+              onClick={() => setStance("against")}
+            >
+              Against
+            </button>
           </div>
 
           <button
             onClick={handleStartDebate}
-            className="mt-4 px-5 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="mt-4 px-5 py-2 bg-red text-white rounded hover:bg-blue-700"
           >
             Start Debate
           </button>
@@ -146,22 +137,21 @@ const Debate = () => {
             <h3 className="font-semibold mb-2">Sample Topics:</h3>
             <ul className="list-disc list-inside text-gray-700 space-y-1">
               {debateTopics
-              .slice(0, 3)                      // take first 3
-              .map((t, i) => (
-                <li
-                  key={i}
-                  onClick={() => setTopic(t)}
-                  className="cursor-pointer hover:underline"
-                >
-                  {t}
-                </li>
-            ))}
-
+                .slice(0, 3)
+                .map((t, i) => (
+                  <li
+                    key={i}
+                    onClick={() => setTopic(t)}
+                    className="cursor-pointer hover:underline"
+                  >
+                    {t}
+                  </li>
+                ))}
             </ul>
           </div>
         </>
       ) : (
-        <div className="mt-6">
+        <div className="mt-2">
           <ChatBox
             topic={topic}
             stance={stance}

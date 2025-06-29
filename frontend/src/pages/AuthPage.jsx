@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const AuthForm = ({ setUser, setIsAuthenticated }) => {
   const [isLogin, setIsLogin] = useState(true);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(''); // error message state
@@ -15,7 +16,10 @@ const AuthForm = ({ setUser, setIsAuthenticated }) => {
     const endpoint = isLogin ? '/api/login' : '/api/register';
 
     try {
-      const res = await axios.post(`http://localhost:5000${endpoint}`, { email, password });
+      const payload = isLogin
+        ? { email, password }
+        : { name, email, password };
+      const res = await axios.post(`http://localhost:5000${endpoint}`, payload);
 
       setUser(res.data.user);
       localStorage.setItem('token', res.data.token);
@@ -34,6 +38,16 @@ const AuthForm = ({ setUser, setIsAuthenticated }) => {
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        {!isLogin && (
+          <input
+            type="text"
+            className="w-full border px-4 py-2 rounded"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        )}
         <input
           type="email"
           className="w-full border px-4 py-2 rounded"
@@ -57,7 +71,7 @@ const AuthForm = ({ setUser, setIsAuthenticated }) => {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          className="w-full bg-blue text-white py-2 rounded hover:bg-blue-700"
         >
           {isLogin ? 'Login' : 'Register'}
         </button>
@@ -69,7 +83,7 @@ const AuthForm = ({ setUser, setIsAuthenticated }) => {
             setIsLogin(!isLogin);
             setError('');
           }}
-          className="text-blue-500 hover:underline"
+          className="text-darkRed hover:underline"
         >
           {isLogin
             ? "Don't have an account? Register"
@@ -80,7 +94,7 @@ const AuthForm = ({ setUser, setIsAuthenticated }) => {
       <div className="text-center mt-6">
         <button
           onClick={() => navigate('/debate')}
-          className="text-sm text-gray-500 underline"
+          className="text-sm text-gray-500 underline hover:text-gray-600"
         >
           Continue without login
         </button>

@@ -39,7 +39,7 @@ const History = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto mt-10">
+    <div className="max-w-3xl mx-auto mt-2">
       <h2 className="text-2xl font-bold mb-6">Debate History</h2>
 
       {selectedDebate ? (
@@ -56,6 +56,7 @@ const History = () => {
             messages={selectedDebate.messages.map((msg) => ({
               sender: msg.sender,
               content: msg.content, 
+              feedback: msg.feedback
             }))}
             input=""
             setInput={() => {}}
