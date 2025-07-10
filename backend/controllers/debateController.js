@@ -50,9 +50,7 @@ const createDebate = async (req, res) => {
         role: 'system',
         content: `You are a helpful AI debate assistant.
 
-        Your role is to strictly argue for the stance: "${aiStance}" on the topic: "${topic}". 
-        Never argue from the opposing side ("${stance}") or present both sides.
-
+        Your role is to strictly argue for the stance: "${aiStance}" the topic: "${topic}". 
         Build on the user's perspective and always reply in simple, clear language.
 
         Keep responses **very short**, ideally matching the user's content length, and **never exceed 40 words**.
@@ -195,8 +193,7 @@ const updateDebate = async (req, res) => {
       role: 'system',
       content: `You are a helpful AI debate assistant.
 
-      Your role is to strictly argue for the stance: "${aiStance}" on the topic: "${topic}". 
-      Never argue from the opposing side ("${stance}") or present both sides.
+      Your role is to strictly argue for the stance: "${aiStance}" the topic: "${topic}". 
 
       Build on the user's perspective and always reply in simple, clear language.
 
