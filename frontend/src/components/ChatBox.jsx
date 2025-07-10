@@ -78,6 +78,7 @@ const ChatBox = ({ topic, stance, setTopic, messages, input, setInput, handleSen
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSend()}
           disabled={loading}
+          
         />
         <button
           onClick={handleSend}
