@@ -8,10 +8,7 @@ const PORT = process.env.PORT || 5000;
 
 // middleware
 app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "https://your-frontend.vercel.app"
-  ],
+  origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true
 }));
