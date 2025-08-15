@@ -58,7 +58,7 @@ const Debate = () => {
       };
       let response;
       if (!debateId) {
-        response = await axios.post('http://localhost:5000/api/debates', {
+        response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/debates`, {
           topic,
           userStance: stance,
           messages: updatedMessages,
@@ -66,7 +66,7 @@ const Debate = () => {
         }, config);
         setDebateId(response.data.data._id);
       } else {
-        response = await axios.put(`http://localhost:5000/api/debates/${debateId}`, {
+        response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/debates/${debateId}`, {
           messages: updatedMessages,
           userStance: stance,
           topic,

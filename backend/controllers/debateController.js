@@ -66,7 +66,7 @@ const createDebate = async (req, res) => {
     ];
 
     const aiResponse = await axios.post(
-      'https://openrouter.ai/api/v1/chat/completions',
+      `${process.env.OPENROUTER_API_URL}`,
       {
         model: 'deepseek/deepseek-r1:free',
         messages: chatMessages,
@@ -107,7 +107,7 @@ const createDebate = async (req, res) => {
       ];
 
       const feedbackRes = await axios.post(
-        'https://openrouter.ai/api/v1/chat/completions',
+        `${process.env.OPENROUTER_API_URL}`,
         {
           model: 'deepseek/deepseek-r1:free',
           messages: feedbackPrompt,
@@ -213,7 +213,7 @@ const updateDebate = async (req, res) => {
     ];
 
     const aiResponse = await axios.post(
-      'https://openrouter.ai/api/v1/chat/completions',
+      `${process.env.OPENROUTER_API_URL}`,
       {
         model: 'deepseek/deepseek-r1:free',
         messages: chatMessages,
@@ -253,7 +253,7 @@ const updateDebate = async (req, res) => {
       ];
 
       const aiFeedbackRes = await axios.post(
-        'https://openrouter.ai/api/v1/chat/completions',
+        `${process.env.OPENROUTER_API_URL}`,
         {
           model: 'deepseek/deepseek-r1:free',
           messages: feedbackPrompt,

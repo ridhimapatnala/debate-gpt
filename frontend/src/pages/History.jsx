@@ -12,7 +12,7 @@ const History = () => {
     const fetchDebates = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:5000/api/debates", {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/debates`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -32,7 +32,7 @@ const History = () => {
 
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
-    await axios.delete(`http://localhost:5000/api/debates/${id}`, {
+    await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/debates/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     setDebateHistory((prev) => prev.filter((debate) => debate._id !== id));

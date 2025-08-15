@@ -4,7 +4,7 @@ require('dotenv').config();
 (async () => {
   try {
     const res = await axios.post(
-      'https://openrouter.ai/api/v1/chat/completions',
+      process.env.OPENROUTER_API_URL,
       {
         model: 'deepseek/deepseek-r1:free',
         messages: [

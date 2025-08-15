@@ -19,7 +19,7 @@ const AuthForm = ({ setUser, setIsAuthenticated }) => {
       const payload = isLogin
         ? { email, password }
         : { name, email, password };
-      const res = await axios.post(`http://localhost:5000${endpoint}`, payload);
+      const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}${endpoint}`, payload);
 
       setUser(res.data.user);
       localStorage.setItem('token', res.data.token);
