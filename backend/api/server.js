@@ -11,8 +11,8 @@ app.use(cors())
 app.use(express.json())
 
 // routes
-const debateRoutes = require("./routes/debateRoutes")
-const authRoutes=require('./routes/AuthRoutes')
+const debateRoutes = require("../routes/debateRoutes")
+const authRoutes=require('../routes/AuthRoutes')
 app.use('/api/debates', debateRoutes)
 app.use('/api', authRoutes)
 // connecting to MongoDB 

@@ -1,0 +1,10 @@
+{
+  "projects": [
+    {
+      "rootDirectory": "backend",
+      "buildCommand": "npm install",
+      "outputDirectory": ".",
+      "framework": null
+    }
+  ]
+}
